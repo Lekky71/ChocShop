@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -44,24 +45,28 @@ class SignInActivity : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
             if(resultCode == Activity.RESULT_OK){
 //                startActivity(Next Activity)
+                showSnackbar(R.string.signed_in)
                 finish()
                 return
             }
             else {
                 if(response == null){
-//                    showSnackbar(R.string.sign_in_cancelled)
+                    showSnackbar(R.string.sign_in_cancelled)
                     return
                 }
                 if(response.errorCode == ErrorCodes.NO_NETWORK){
-//                    showSnackbar(R.string.no_internet_connection)
+                    showSnackbar(R.string.no_internet_connection)
                     return
                 }
                 if(response.errorCode == ErrorCodes.UNKNOWN_ERROR){
-//                    showSnackbar(R.string.unknown_error)
+                    showSnackbar(R.string.unknown_error)
                     return
                 }
             }
         }
-//        showSnackbar(R.string.unknown_sign_in_response)
+        showSnackbar(R.string.unknown_sign_in_response)
+    }
+    fun showSnackbar(id : Int){
+        Snackbar.make(findViewById(R.id.sign_in_container), resources.getString(id), Snackbar.LENGTH_LONG)
     }
 }
