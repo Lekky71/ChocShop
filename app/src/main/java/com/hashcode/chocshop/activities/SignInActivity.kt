@@ -17,12 +17,16 @@ import java.util.Arrays
 class SignInActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 123
     val auth = FirebaseAuth.getInstance()!!
+
+    fun showSnackbar(id : Int){
+        Snackbar.make(findViewById(R.id.sign_in_container), resources.getString(id), Snackbar.LENGTH_LONG).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-
-        if(auth.currentUser != null){
-
+        if(auth.currentUser != null){ //If user is signed in
+//                startActivity(Next Activity)
         }
         else {
             startActivityForResult(
@@ -42,8 +46,15 @@ class SignInActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_SIGN_IN){
+            /*
+                this checks if the activity result we are getting is for the sign in
+                as we can have more than activity to be started in our Activity.
+             */
             val response = IdpResponse.fromResultIntent(data)
             if(resultCode == Activity.RESULT_OK){
+                /*
+                    Checks if the User sign in was successful
+                 */
 //                startActivity(Next Activity)
                 showSnackbar(R.string.signed_in)
                 finish()
@@ -51,22 +62,23 @@ class SignInActivity : AppCompatActivity() {
             }
             else {
                 if(response == null){
+                    //If no response from the Server
                     showSnackbar(R.string.sign_in_cancelled)
                     return
                 }
                 if(response.errorCode == ErrorCodes.NO_NETWORK){
+                    //If there was a network problem the user's phone
                     showSnackbar(R.string.no_internet_connection)
                     return
                 }
                 if(response.errorCode == ErrorCodes.UNKNOWN_ERROR){
+                    //If the error cause was unknown
                     showSnackbar(R.string.unknown_error)
                     return
                 }
             }
         }
-        showSnackbar(R.string.unknown_sign_in_response)
+        showSnackbar(R.string.unknown_sign_in_response) //if the sign in response was unknown
     }
-    fun showSnackbar(id : Int){
-        Snackbar.make(findViewById(R.id.sign_in_container), resources.getString(id), Snackbar.LENGTH_LONG)
-    }
+
 }
