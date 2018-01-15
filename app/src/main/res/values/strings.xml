@@ -10,4 +10,8 @@
     <string name="sign_in_cancelled">Sign In cancelled</string>
     <string name="no_internet_connection">No Internet Found</string>
     <string name="signed_in">Signed In successfully</string>
+    <string name="title_activity_main">ChocShop</string>
+    <string name="title_shop">Shop</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_chat">Chat</string>
 </resources>
