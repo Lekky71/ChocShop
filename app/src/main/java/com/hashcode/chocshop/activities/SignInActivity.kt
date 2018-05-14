@@ -57,6 +57,8 @@ class SignInActivity : AppCompatActivity() {
                  */
 //                startActivity(Next Activity)
                 showSnackbar(R.string.signed_in)
+                val homeIntent = Intent(this@SignInActivity, MainActivity::class.java)
+                startActivity(homeIntent)
                 finish()
                 return
             }
